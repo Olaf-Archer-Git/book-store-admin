@@ -1,10 +1,12 @@
-import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ForgotPassword from "./pages/ForgotPassword";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import ResetPassword from "./pages/ResetPassword";
 import MainLayout from "./components/MainLayout";
+
+///
+import "./App.css";
 
 const App = () => {
   return (

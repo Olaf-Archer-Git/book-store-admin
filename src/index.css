@@ -1,3 +1,22 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
 body {
   font-family: "Lato", sans-serif;
+  font-size: 16px;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+a {
+  text-decoration: none;
 }

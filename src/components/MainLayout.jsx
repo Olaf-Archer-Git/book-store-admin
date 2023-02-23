@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
+import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Layout, Menu, theme } from "antd";
 import { Col, Row } from "antd";
+import { MdOutlineDashboard, MdPlaylistAddCheck } from "react-icons/md";
+import {
+  HiOutlineUsers,
+  HiOutlineBookmark,
+  HiOutlineBookOpen,
+} from "react-icons/hi";
+import "../style/componentStyle.css";
 
 const { Header, Sider, Content } = Layout;
 
@@ -17,31 +19,53 @@ const MainLayout = () => {
     token: { colorBgContainer },
   } = theme.useToken();
 
+  const navigate = useNavigate();
+
   return (
     <Row justify="center">
-      <Col span={22}>
+      <Col span={23}>
         <Layout style={{ minHeight: "100vh" }}>
           <Sider trigger={null} collapsible collapsed={collapsed}>
             <div className="logo" />
+            <h2
+              style={{ textAlign: "center", color: "#fff", padding: "10px 0" }}
+            >
+              Book Store
+            </h2>
             <Menu
               theme="dark"
               mode="inline"
-              defaultSelectedKeys={["1"]}
+              onClick={({ key }) => {
+                if (key !== "signOut") return navigate(key);
+                console.log(navigate(key));
+              }}
               items={[
                 {
-                  key: "1",
-                  icon: <UserOutlined />,
-                  label: "nav 1",
+                  key: "",
+                  icon: <MdOutlineDashboard />,
+                  label: "Dashboard",
                 },
                 {
-                  key: "2",
-                  icon: <VideoCameraOutlined />,
-                  label: "nav 2",
+                  key: "customers",
+                  icon: <HiOutlineUsers />,
+                  label: "Customers",
                 },
                 {
-                  key: "3",
-                  icon: <UploadOutlined />,
-                  label: "nav 3",
+                  key: "catalog",
+                  icon: <HiOutlineBookmark />,
+                  label: "Catalog",
+                  children: [
+                    {
+                      key: "book",
+                      icon: <HiOutlineBookOpen />,
+                      label: "Add Book",
+                    },
+                    {
+                      key: "booksList",
+                      icon: <MdPlaylistAddCheck />,
+                      label: "Books List",
+                    },
+                  ],
                 },
               ]}
             />
