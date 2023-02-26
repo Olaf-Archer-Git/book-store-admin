@@ -1,0 +1,53 @@
+.ant-menu-item svg,
+.ant-menu-submenu-title svg {
+  width: 1.4em;
+  height: 1.4em;
+}
+
+.ant-layout-content {
+  overflow-y: scroll;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header svg {
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  z-index: 5;
+}
+
+.header-container {
+  line-height: 20px;
+  padding: 25px 0;
+}
+
+.header-icon {
+  position: relative;
+}
+
+.header-icon span {
+  position: absolute;
+  top: -10px;
+  left: 0;
+  background: #01be40;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  text-align: center;
+  color: rgb(250, 250, 250);
+}
+
+@media screen and (max-width: 500px) {
+  .header-container {
+    display: block;
+  }
+}
+
+.class {
+  background: #44b97d;
+}

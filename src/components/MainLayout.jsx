@@ -1,43 +1,54 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-import { Layout, Menu, theme } from "antd";
-import { Col, Row } from "antd";
-import { MdOutlineDashboard, MdPlaylistAddCheck } from "react-icons/md";
+import { useNavigate, Outlet } from "react-router-dom";
+import { Layout, Menu, theme, Col, Row, Typography } from "antd";
+import {
+  MdOutlineDashboard,
+  MdPlaylistAddCheck,
+  MdOutlineCategory,
+  MdQueryStats,
+} from "react-icons/md";
 import {
   HiOutlineUsers,
   HiOutlineBookmark,
   HiOutlineBookOpen,
+  HiOutlineClipboardList,
 } from "react-icons/hi";
+import { SiBlogger, SiBloglovin } from "react-icons/si";
+import { TfiLayoutListPost } from "react-icons/tfi";
+import HeaderComponent from "./HeaderComponent";
 import "../style/componentStyle.css";
 
-const { Header, Sider, Content } = Layout;
-
 const MainLayout = () => {
+  const { Sider, Content } = Layout;
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
 
+  const { Title } = Typography;
+
   const navigate = useNavigate();
 
   return (
     <Row justify="center">
-      <Col span={23}>
+      <Col span={24}>
         <Layout style={{ minHeight: "100vh" }}>
           <Sider trigger={null} collapsible collapsed={collapsed}>
-            <div className="logo" />
-            <h2
-              style={{ textAlign: "center", color: "#fff", padding: "10px 0" }}
+            <Title
+              style={{
+                color: "#ffff",
+                textAlign: "center",
+                margin: "20px 0",
+              }}
+              level={2}
             >
               Book Store
-            </h2>
+            </Title>
             <Menu
               theme="dark"
               mode="inline"
               onClick={({ key }) => {
                 if (key !== "signOut") return navigate(key);
-                console.log(navigate(key));
               }}
               items={[
                 {
@@ -61,25 +72,57 @@ const MainLayout = () => {
                       label: "Add Book",
                     },
                     {
-                      key: "booksList",
+                      key: "books-list",
                       icon: <MdPlaylistAddCheck />,
                       label: "Books List",
                     },
+                    {
+                      key: "category",
+                      icon: <MdOutlineCategory />,
+                      label: "Category",
+                    },
+                    {
+                      key: "category-list",
+                      icon: <MdPlaylistAddCheck />,
+                      label: "Category List",
+                    },
                   ],
+                },
+                {
+                  key: "orders",
+                  icon: <HiOutlineClipboardList />,
+                  label: "Orders",
+                },
+                {
+                  key: "blogs",
+                  icon: <SiBlogger />,
+                  label: "Blogs",
+                  children: [
+                    {
+                      key: "blog",
+                      icon: <SiBloglovin />,
+                      label: "Add Blog",
+                    },
+                    {
+                      key: "blog-list",
+                      icon: <TfiLayoutListPost />,
+                      label: "Blog List",
+                    },
+                  ],
+                },
+                {
+                  key: "queries",
+                  icon: <MdQueryStats />,
+                  label: "Queries",
                 },
               ]}
             />
           </Sider>
           <Layout className="site-layout">
-            <Header style={{ padding: 0, background: colorBgContainer }}>
-              {React.createElement(
-                collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-                {
-                  className: "trigger",
-                  onClick: () => setCollapsed(!collapsed),
-                }
-              )}
-            </Header>
+            <HeaderComponent
+              collapsed={collapsed}
+              setCollapsed={setCollapsed}
+            />
             <Content
               style={{
                 margin: "24px 16px",
@@ -88,7 +131,7 @@ const MainLayout = () => {
                 background: colorBgContainer,
               }}
             >
-              Content
+              <Outlet />
             </Content>
           </Layout>
         </Layout>
