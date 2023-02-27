@@ -4,6 +4,15 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import ResetPassword from "./pages/ResetPassword";
 import MainLayout from "./components/MainLayout";
+import Queries from "./pages/Queries";
+import AddBlog from "./pages/AddBlog";
+import BlogList from "./pages/BlogList";
+import Orders from "./pages/Orders";
+import AddBook from "./pages/AddBook";
+import BookList from "./pages/BookList";
+import Category from "./pages/Category";
+import CategoryList from "./pages/CategoryList";
+import Customers from "./pages/Customers";
 
 ///
 import "./App.css";
@@ -17,6 +26,15 @@ const App = () => {
         <Route path="/reset" element={<ResetPassword />} />
         <Route path="/admin" element={<MainLayout />}>
           <Route index element={<Dashboard />} />
+          <Route path="customers" element={<Customers />} />
+          <Route path="blog" element={<AddBlog />} />
+          <Route path="blog-list" element={<BlogList />} />
+          <Route path="orders" element={<Orders />} />
+          <Route path="book" element={<AddBook />} />
+          <Route path="books-list" element={<BookList />} />
+          <Route path="category" element={<Category />} />
+          <Route path="category-list" element={<CategoryList />} />
+          <Route path="queries" element={<Queries />} />
         </Route>
       </Routes>
     </BrowserRouter>

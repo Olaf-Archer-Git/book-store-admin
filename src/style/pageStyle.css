@@ -40,6 +40,19 @@
   background: #dff64b;
 }
 
+.blog-btn {
+  margin: 60px 0 25px 0;
+  background: #a03fa5;
+  color: #ffff;
+  border: 2px solid #a03fa5;
+}
+
+.blog-btn:hover {
+  background: #efe6f4;
+  color: #a03fa5;
+  border: 2px solid #a03fa5;
+}
+
 /* .class {
   background: #df7760;
 } */
