@@ -32,6 +32,7 @@ const HeaderComponent = (props) => {
           <img style={{ maxWidth: "45px" }} src={icon} alt="#!" />
         </Col>
         <Col span={12}>
+          {/******* */}
           <h4>John Doe</h4>
           <p>email@email.com</p>
         </Col>

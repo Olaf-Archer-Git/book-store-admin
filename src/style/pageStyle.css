@@ -53,6 +53,15 @@
   border: 2px solid #a03fa5;
 }
 
-/* .class {
-  background: #df7760;
-} */
+.blog-btn-img {
+  background: #324bc5;
+  color: #ffff;
+  border: 2px solid #324bc5;
+  margin-left: 10px;
+}
+
+.blog-btn-img:hover {
+  background: #efe6f4;
+  color: #1b37c2;
+  border: 2px solid #1b37c2;
+}
