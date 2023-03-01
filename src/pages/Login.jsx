@@ -1,6 +1,9 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
+import * as yup from "yup";
+import { login } from "../features/auth/authSlice";
 import AdminIntup from "../components/AdminIntup";
 import ComponentBtn from "../components/ComponentBtn";
 import { UserOutlined } from "@ant-design/icons";
@@ -10,12 +13,28 @@ import "../App.css";
 import "../style/pageStyle.css";
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const auth = useSelector((state) => state);
+
+  let schema = yup.object().shape({
+    email: yup
+      .string()
+      .email("Email should be valid")
+      .required("Email is Required"),
+    password: yup
+      .string()
+      .required("Password is Required")
+      .min(5, "Must Contain At Least 5 Characters"),
+  });
+
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
     },
+    validationSchema: schema,
     onSubmit: (values) => {
+      dispatch(login(values));
       alert(JSON.stringify(values, null, 2));
     },
   });
@@ -35,6 +54,9 @@ const Login = () => {
             value={formik.values.email}
             icon={<UserOutlined />}
           />
+          {formik.touched.email && formik.errors.email ? (
+            <div className="input-error">{formik.errors.email}</div>
+          ) : null}
           <AdminIntup
             type="password"
             placeholder="password"
@@ -44,6 +66,9 @@ const Login = () => {
             value={formik.values.password}
             icon={<RiLockPasswordLine />}
           />
+          {formik.touched.password && formik.errors.password ? (
+            <div className="input-error">{formik.errors.password}</div>
+          ) : null}
 
           <ComponentBtn type="submit" name="Login" class="login-btn" />
 
