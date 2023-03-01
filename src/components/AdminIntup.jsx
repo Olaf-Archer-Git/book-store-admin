@@ -3,11 +3,19 @@ import { Input } from "antd";
 
 import "../style/componentStyle.css";
 
-const AdminIntup = ({ type, id, placeholder, icon }) => {
+const AdminIntup = ({ type, id, placeholder, icon, name, value, onChange }) => {
   return (
-    <div className="admin-input">
-      <Input type={type} id={id} placeholder={placeholder} prefix={icon} />
-    </div>
+    <Input
+      style={{ margin: "8px 0", padding: "8px" }}
+      type={type}
+      id={id}
+      placeholder={placeholder}
+      prefix={icon}
+      name={name}
+      value={value}
+      onChange={onChange}
+      onBlur={onChange}
+    />
   );
 };
 
