@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { login } from "../features/auth/authSlice";
@@ -14,7 +14,8 @@ import "../style/pageStyle.css";
 
 const Login = () => {
   const dispatch = useDispatch();
-  const auth = useSelector((state) => state);
+  const authState = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   let schema = yup.object().shape({
     email: yup
@@ -35,15 +36,23 @@ const Login = () => {
     validationSchema: schema,
     onSubmit: (values) => {
       dispatch(login(values));
-      alert(JSON.stringify(values, null, 2));
     },
   });
+
+  const { user, isError, isSuccess, isLoading, message } = authState;
+
+  useEffect(() => {
+    isSuccess ? navigate("admin") : navigate("");
+  }, [user, isError, isSuccess, isLoading, navigate]);
 
   return (
     <section className="login">
       <div className="login-container" style={{ background: "#edd9d1" }}>
         <h3 className="title">Login</h3>
         <p className="small-text">login to your account</p>
+        <div className="input-error">
+          {message.message === "Rejected" ? "You Are Not An Admin" : " "}
+        </div>
         <form action="" onSubmit={formik.handleSubmit}>
           <AdminIntup
             type="email"

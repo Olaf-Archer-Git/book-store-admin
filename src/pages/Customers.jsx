@@ -1,8 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Row, Col } from "antd";
 import TableComponent from "../components/TableComponent";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser } from "../features/customers/customerSlice";
 
 const Customers = () => {
+  const dispatch = useDispatch();
+
+  const customerState = useSelector((state) => state.customer);
+
+  useEffect(() => {
+    dispatch(getUser());
+  }, []);
+
   const columns = [
     {
       title: "Number",
@@ -32,15 +42,15 @@ const Customers = () => {
   ];
 
   const data = [];
-  for (let i = 0; i < 35; i++) {
-    data.push({
-      key: i + 1,
-      name: `Edward King ${i + 1}`,
-      email: "demo@email.com",
-      mobile: `050${Math.floor(Math.random() * (999 - 111)) + 111}1020`,
-      status: "status",
-      action: "action",
-    });
+  for (let i = 0; i < customerState.length; i++) {
+    if (customerState[i].role !== "admin") {
+      data.push({
+        key: i + 1,
+        name: `${customerState[i].firstName} ${customerState[i].lastName}`,
+        email: customerState[i].email,
+        mobile: customerState[i].mobile,
+      });
+    }
   }
 
   return (
