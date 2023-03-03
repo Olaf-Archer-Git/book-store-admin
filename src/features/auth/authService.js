@@ -1,11 +1,11 @@
 import axios from "axios";
-import { base_url } from "../../utils/base_url";
+import { baseURL } from "../../utils/baseURL";
 
 const login = async (user) => {
-  const response = await axios.post(`${base_url}user/login-admin`, user);
+  const response = await axios.post(`${baseURL}user/login-admin`, user);
 
   if (response.data) {
-    //save user state to local storage
+    //save user state to the local storage
     localStorage.setItem("user", JSON.stringify(response.data));
   }
 

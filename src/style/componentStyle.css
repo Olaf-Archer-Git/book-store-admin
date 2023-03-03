@@ -42,6 +42,10 @@
   color: rgb(250, 250, 250);
 }
 
+.ant-table-cell:nth-child(2) {
+  text-transform: capitalize;
+}
+
 @media screen and (max-width: 500px) {
   .header-container {
     display: block;

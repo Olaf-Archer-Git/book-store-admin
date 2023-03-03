@@ -1,26 +1,29 @@
 import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Row, Col } from "antd";
 import TableComponent from "../components/TableComponent";
-import { useDispatch, useSelector } from "react-redux";
-import { getUser } from "../features/customers/customerSlice";
+import { getUsers } from "../features/customers/customerSlice";
+
+import "../style/componentStyle.css";
 
 const Customers = () => {
   const dispatch = useDispatch();
 
-  const customerState = useSelector((state) => state.customer);
+  const customerState = useSelector((state) => state.customer.customers);
 
   useEffect(() => {
-    dispatch(getUser());
-  }, []);
+    dispatch(getUsers());
+  }, [dispatch]);
 
   const columns = [
     {
-      title: "Number",
+      title: "ID",
       dataIndex: "key",
     },
     {
       title: "Name",
       dataIndex: "name",
+      sorter: (a, b) => (a.name > b.name ? 1 : -1),
     },
     {
       title: "Email",
@@ -29,15 +32,6 @@ const Customers = () => {
     {
       title: "Mobile",
       dataIndex: "mobile",
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-    },
-
-    {
-      title: "Action",
-      dataIndex: "action",
     },
   ];
 
