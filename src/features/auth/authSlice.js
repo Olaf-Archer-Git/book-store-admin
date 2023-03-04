@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { setError, setPending } from "../../app/setReducer";
 import { authService } from "./authService";
 
 //get user state from local storage
@@ -32,21 +33,14 @@ export const authSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(login.pending, (state) => {
-        state.isLoading = true;
-      })
+      .addCase(login.pending, setPending)
       .addCase(login.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.isError = false;
         state.user = action.payload;
-        state.message = "auth slice success";
       })
-      .addCase(login.rejected, (state, action) => {
-        state.isError = true;
-        state.isSuccess = false;
-        state.isLoading = false;
-        state.message = action.error;
-      });
+      .addCase(login.rejected, setError);
   },
 });
 

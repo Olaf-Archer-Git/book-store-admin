@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { setPending, setError } from "../../app/setReducer";
 import { productService } from "./productService";
 
 const initialState = {
@@ -20,27 +21,30 @@ export const getProducts = createAsyncThunk(
   }
 );
 
+export const createProduct = createAsyncThunk(
+  "product/create-product",
+  async (thunkAPI) => {
+    try {
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const productSlice = createSlice({
   name: "products",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getProducts.pending, (state) => {
-        state.isLoading = true;
-      })
+      .addCase(getProducts.pending, setPending)
       .addCase(getProducts.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.customers = action.payload;
+        state.products = action.payload;
       })
-      .addCase(getProducts.rejected, (state, action) => {
-        state.isError = true;
-        state.isSuccess = false;
-        state.isLoading = false;
-        state.message = action.error;
-      });
+      .addCase(getProducts.rejected, setError);
   },
 });
 

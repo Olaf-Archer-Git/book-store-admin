@@ -10,8 +10,6 @@ import BlogList from "./pages/BlogList";
 import Orders from "./pages/Orders";
 import AddBook from "./pages/AddBook";
 import BookList from "./pages/BookList";
-import Category from "./pages/Category";
-import CategoryList from "./pages/CategoryList";
 import Customers from "./pages/Customers";
 
 ///
@@ -32,8 +30,6 @@ const App = () => {
           <Route path="orders" element={<Orders />} />
           <Route path="book" element={<AddBook />} />
           <Route path="books-list" element={<BookList />} />
-          <Route path="category" element={<Category />} />
-          <Route path="category-list" element={<CategoryList />} />
           <Route path="queries" element={<Queries />} />
         </Route>
       </Routes>

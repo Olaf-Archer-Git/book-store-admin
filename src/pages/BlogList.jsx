@@ -1,30 +1,36 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { Row, Col } from "antd";
 import TableComponent from "../components/TableComponent";
+import { getBlogs } from "../features/blogs/blogSlice";
+import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 
 const BlogList = () => {
+  const dispatch = useDispatch();
+  const blogState = useSelector((state) => state.blog.blogs);
+
+  useEffect(() => {
+    dispatch(getBlogs());
+  }, [dispatch]);
+
   const columns = [
     {
       title: "Number",
       dataIndex: "key",
     },
     {
-      title: "Name",
-      dataIndex: "name",
+      title: "Title",
+      dataIndex: "title",
     },
     {
-      title: "Email",
-      dataIndex: "email",
+      title: "Category",
+      dataIndex: "category",
     },
     {
-      title: "Mobile",
-      dataIndex: "mobile",
+      title: "Description",
+      dataIndex: "description",
     },
-    {
-      title: "Status",
-      dataIndex: "status",
-    },
-
     {
       title: "Action",
       dataIndex: "action",
@@ -32,14 +38,25 @@ const BlogList = () => {
   ];
 
   const data = [];
-  for (let i = 0; i < 35; i++) {
+  for (let i = 0; i < blogState.length; i++) {
     data.push({
       key: i + 1,
-      name: `Edward King ${i + 1}`,
-      email: "demo@email.com",
-      mobile: `050${Math.floor(Math.random() * (999 - 111)) + 111}1020`,
-      status: "status",
-      action: "action",
+      title: blogState[i].title,
+      category: blogState[i].category,
+      description: blogState[i].description,
+      action: (
+        <>
+          <Link to="#!">
+            <AiOutlineEdit
+              style={{ fontSize: "21px", marginRight: "10px" }}
+              title="edit"
+            />
+          </Link>
+          <Link to="#!">
+            <AiOutlineDelete style={{ fontSize: "21px" }} title="delete" />
+          </Link>
+        </>
+      ),
     });
   }
 

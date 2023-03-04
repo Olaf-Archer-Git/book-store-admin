@@ -1,30 +1,42 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Row, Col } from "antd";
+import { useDispatch, useSelector } from "react-redux";
 import TableComponent from "../components/TableComponent";
+import { getProducts } from "../features/product/productSlice";
+import { Link } from "react-router-dom";
+import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 
 const BookList = () => {
+  const dispatch = useDispatch();
+  const productState = useSelector((state) => state.product.products);
+
+  useEffect(() => {
+    dispatch(getProducts());
+  }, [dispatch]);
+
   const columns = [
     {
       title: "Number",
       dataIndex: "key",
     },
     {
-      title: "Name",
-      dataIndex: "name",
+      title: "Title",
+      dataIndex: "title",
+      sorter: (a, b) => (a.title > b.title ? 1 : -1),
     },
     {
-      title: "Email",
-      dataIndex: "email",
+      title: "Author",
+      dataIndex: "author",
     },
     {
-      title: "Mobile",
-      dataIndex: "mobile",
+      title: "Category",
+      dataIndex: "category",
     },
     {
-      title: "Status",
-      dataIndex: "status",
+      title: "Price",
+      dataIndex: "price",
+      sorter: (a, b) => (a.price > b.price ? 1 : -1),
     },
-
     {
       title: "Action",
       dataIndex: "action",
@@ -32,14 +44,27 @@ const BookList = () => {
   ];
 
   const data = [];
-  for (let i = 0; i < 35; i++) {
+
+  for (let i = 0; i < productState.length; i++) {
     data.push({
       key: i + 1,
-      name: `Edward King ${i + 1}`,
-      email: "demo@email.com",
-      mobile: `050${Math.floor(Math.random() * (999 - 111)) + 111}1020`,
-      status: "status",
-      action: "action",
+      title: productState[i].title,
+      author: productState[i].author,
+      category: productState[i].category,
+      price: `${productState[i].price} €`,
+      action: (
+        <>
+          <Link to="#!">
+            <AiOutlineEdit
+              style={{ fontSize: "21px", marginRight: "10px" }}
+              title="edit"
+            />
+          </Link>
+          <Link to="#!">
+            <AiOutlineDelete style={{ fontSize: "21px" }} title="delete" />
+          </Link>
+        </>
+      ),
     });
   }
 

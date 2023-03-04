@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { setError, setPending } from "../../app/setReducer";
 import { customerService } from "./customerService";
 
 const initialState = {
@@ -21,26 +22,19 @@ export const getUsers = createAsyncThunk(
 );
 
 export const customerSlice = createSlice({
-  name: "users",
+  name: "customer",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getUsers.pending, (state) => {
-        state.isLoading = true;
-      })
+      .addCase(getUsers.pending, setPending)
       .addCase(getUsers.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
         state.customers = action.payload;
       })
-      .addCase(getUsers.rejected, (state, action) => {
-        state.isError = true;
-        state.isSuccess = false;
-        state.isLoading = false;
-        state.message = action.error;
-      });
+      .addCase(getUsers.rejected, setError);
   },
 });
 

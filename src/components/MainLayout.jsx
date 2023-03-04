@@ -76,16 +76,6 @@ const MainLayout = () => {
                       icon: <MdPlaylistAddCheck />,
                       label: "Books List",
                     },
-                    {
-                      key: "category",
-                      icon: <MdOutlineCategory />,
-                      label: "Category",
-                    },
-                    {
-                      key: "category-list",
-                      icon: <MdPlaylistAddCheck />,
-                      label: "Category List",
-                    },
                   ],
                 },
                 {

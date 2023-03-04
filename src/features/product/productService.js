@@ -12,4 +12,4 @@ const createProduct = async (product) => {
   return response.data;
 };
 
-export const customerService = { getProducts, createProduct };
+export const productService = { getProducts, createProduct };
