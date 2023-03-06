@@ -1,24 +1,35 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Row, Col } from "antd";
+import { useDispatch, useSelector } from "react-redux";
 import TableComponent from "../components/TableComponent";
+import { Link } from "react-router-dom";
+import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
+import { getAllOrders } from "../features/order/orderSlice";
 
 const Orders = () => {
+  const dispatch = useDispatch();
+  const orderState = useSelector((state) => state.order.orders);
+
+  useEffect(() => {
+    dispatch(getAllOrders());
+  }, [dispatch]);
+
   const columns = [
     {
       title: "Number",
       dataIndex: "key",
     },
     {
-      title: "Name",
+      title: "Ordered By",
       dataIndex: "name",
     },
     {
-      title: "Email",
-      dataIndex: "email",
+      title: "Product",
+      dataIndex: "product",
     },
     {
-      title: "Mobile",
-      dataIndex: "mobile",
+      title: "Total Price",
+      dataIndex: "price",
     },
     {
       title: "Status",
@@ -31,15 +42,29 @@ const Orders = () => {
     },
   ];
 
+  console.log(orderState[0].products[0]?.paymentIntent?.cost);
+
   const data = [];
-  for (let i = 0; i < 35; i++) {
+  for (let i = 0; i < orderState.length; i++) {
     data.push({
       key: i + 1,
-      name: `Edward King ${i + 1}`,
-      email: "demo@email.com",
-      mobile: `050${Math.floor(Math.random() * (999 - 111)) + 111}1020`,
-      status: "status",
-      action: "action",
+      name: `${orderState[i].orderBy?.firstName} ${orderState[i].orderBy?.lastName}`,
+      product: orderState[i].products[0]?.product?.title,
+      price: orderState[i]?.paymentIntent?.cost,
+      status: orderState[i].paymentIntent.status,
+      action: (
+        <>
+          <Link to="#!">
+            <AiOutlineEdit
+              style={{ fontSize: "21px", marginRight: "10px" }}
+              title="edit"
+            />
+          </Link>
+          <Link to="#!">
+            <AiOutlineDelete style={{ fontSize: "21px" }} title="delete" />
+          </Link>
+        </>
+      ),
     });
   }
 
