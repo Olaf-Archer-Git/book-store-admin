@@ -11,6 +11,7 @@ import Orders from "./pages/Orders";
 import AddBook from "./pages/AddBook";
 import BookList from "./pages/BookList";
 import Customers from "./pages/Customers";
+import Category from "./pages/Category";
 
 ///
 import "./App.css";
@@ -31,6 +32,7 @@ const App = () => {
           <Route path="book" element={<AddBook />} />
           <Route path="books-list" element={<BookList />} />
           <Route path="queries" element={<Queries />} />
+          <Route path="category" element={<Category />} />
         </Route>
       </Routes>
     </BrowserRouter>

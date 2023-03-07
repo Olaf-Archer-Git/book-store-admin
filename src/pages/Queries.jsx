@@ -85,7 +85,6 @@ const Queries = () => {
       ),
     });
   }
-  console.log(queryState);
 
   return (
     <Row style={{ margin: "25px 0" }} gutter={10}>

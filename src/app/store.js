@@ -5,6 +5,8 @@ import productReducer from "../features/product/productSlice";
 import blogReducer from "../features/blogs/blogSlice";
 import queryReducer from "../features/queries/querySlice";
 import orderReducer from "../features/order/orderSlice";
+import categoryReducer from "../features/category/categorySlice";
+import uploadReducer from "../features/upload/uploadSlice";
 
 export const store = configureStore({
   reducer: {
@@ -14,5 +16,7 @@ export const store = configureStore({
     blog: blogReducer,
     query: queryReducer,
     order: orderReducer,
+    category: categoryReducer,
+    uploadImg: uploadReducer,
   },
 });

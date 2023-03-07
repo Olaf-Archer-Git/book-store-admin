@@ -1,21 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { Row, Col, message, Upload, Select } from "antd";
+import { useDispatch, useSelector } from "react-redux";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import AdminIntup from "../components/AdminIntup";
 import ComponentBtn from "../components/ComponentBtn";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { getAllCategories } from "../features/category/categorySlice";
 
 import "../style/pageStyle.css";
 
 const AddBook = () => {
-  const [value, setValue] = useState("");
+  const dispatch = useDispatch();
+  const categoryState = useSelector((state) => state.category.categories);
+
+  useEffect(() => {
+    dispatch(getAllCategories());
+  }, [dispatch]);
 
   let schema = yup.object().shape({
     title: yup.string().required("Title is Required"),
     author: yup.string().required("Author is Required"),
     price: yup.number().required("Price is Required"),
+    category: yup.string().required("Category is Required"),
     description: yup.string().required("Description is Required"),
   });
 
@@ -25,6 +33,7 @@ const AddBook = () => {
       description: "",
       author: "",
       price: "",
+      category: "",
     },
     validationSchema: schema,
     onSubmit: (values) => {
@@ -33,14 +42,9 @@ const AddBook = () => {
   });
 
   const props = {
-    name: "file",
-    action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
-    headers: {
-      authorization: "authorization-text",
-    },
     onChange(info) {
       if (info.file.status !== "uploading") {
-        console.log(info.file, info.fileList);
+        alert(info.file, info.fileList);
       }
       if (info.file.status === "done") {
         message.success(`${info.file.name} file uploaded successfully`);
@@ -49,6 +53,15 @@ const AddBook = () => {
       }
     },
   };
+
+  const options = [];
+
+  for (let i = 0; i < categoryState.length; i++) {
+    options.push({
+      value: categoryState[i].title,
+      label: categoryState[i].title,
+    });
+  }
 
   return (
     <>
@@ -107,27 +120,21 @@ const AddBook = () => {
 
           <Col span={12}>
             <Select
-              defaultValue="Book Category"
+              // mode="multiple"
+              defaultValue="Book Categories"
+              onChange={formik.handleChange("category")}
+              onBlur={formik.handleBlur("category")}
+              name="category"
               style={{
                 width: "100%",
                 height: "auto",
                 padding: "10px 0",
               }}
-              options={[
-                {
-                  value: "detective",
-                  label: "Detective",
-                },
-                {
-                  value: "history",
-                  label: "History",
-                },
-                {
-                  value: "novel",
-                  label: "Novel",
-                },
-              ]}
+              options={options}
             />
+            <div style={{ color: "red" }}>
+              {formik.touched.category && formik.errors.category}
+            </div>
           </Col>
         </Row>
 
@@ -138,7 +145,6 @@ const AddBook = () => {
               value={formik.values.description}
               name="description"
               onChange={formik.handleChange("description")}
-              onBlur={formik.handleBlur("description")}
               style={{
                 height: "200px",
               }}

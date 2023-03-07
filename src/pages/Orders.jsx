@@ -42,15 +42,13 @@ const Orders = () => {
     },
   ];
 
-  console.log(orderState[0].products[0]?.paymentIntent?.cost);
-
   const data = [];
   for (let i = 0; i < orderState.length; i++) {
     data.push({
       key: i + 1,
       name: `${orderState[i].orderBy?.firstName} ${orderState[i].orderBy?.lastName}`,
-      product: orderState[i].products[0]?.product?.title,
-      price: orderState[i]?.paymentIntent?.cost,
+      product: orderState[i].products[0]?.product.title,
+      price: orderState[i].paymentIntent?.cost,
       status: orderState[i].paymentIntent.status,
       action: (
         <>

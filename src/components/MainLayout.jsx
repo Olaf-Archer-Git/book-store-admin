@@ -101,6 +101,11 @@ const MainLayout = () => {
                   ],
                 },
                 {
+                  key: "category",
+                  icon: <MdOutlineCategory />,
+                  label: "Category",
+                },
+                {
                   key: "queries",
                   icon: <MdQueryStats />,
                   label: "Queries",
