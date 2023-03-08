@@ -65,3 +65,32 @@
 .ant-select-selection {
   padding: 10px 0;
 }
+
+.upload {
+  margin: 35px 20px 0 20px;
+  padding: 7px 20px;
+  color: #a03fa5;
+  font-weight: bold;
+  border: 2px solid #a03fa5;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+.upload:hover {
+  color: #ffff;
+  background: #a03fa5;
+}
+
+.upload-img {
+  max-width: 250px;
+  height: auto;
+}
+
+.upload-btn {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  cursor: pointer;
+  background: #ffffff;
+}

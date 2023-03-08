@@ -67,7 +67,7 @@ const MainLayout = () => {
                   label: "Catalog",
                   children: [
                     {
-                      key: "book",
+                      key: "product",
                       icon: <HiOutlineBookOpen />,
                       label: "Add Book",
                     },

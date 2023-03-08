@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
-import { Row, Col, message, Upload, Select } from "antd";
+import { useNavigate } from "react-router-dom";
+import { Row, Col, Select } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -7,17 +8,35 @@ import AdminIntup from "../components/AdminIntup";
 import ComponentBtn from "../components/ComponentBtn";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import Dropzone from "react-dropzone";
 import { getAllCategories } from "../features/category/categorySlice";
+import { deleteImages, uploadImages } from "../features/upload/uploadSlice";
+import { GrClose } from "react-icons/gr";
+import { createProduct } from "../features/product/productSlice";
 
 import "../style/pageStyle.css";
 
 const AddBook = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const categoryState = useSelector((state) => state.category.categories);
+  const imgState = useSelector((state) => state.uploadImg.images);
 
   useEffect(() => {
     dispatch(getAllCategories());
   }, [dispatch]);
+
+  const img = [];
+  imgState.forEach((element) => {
+    img.push({
+      public_id: element.public_id,
+      url: element.url,
+    });
+  });
+
+  useEffect(() => {
+    formik.values.images = img;
+  });
 
   let schema = yup.object().shape({
     title: yup.string().required("Title is Required"),
@@ -34,28 +53,19 @@ const AddBook = () => {
       author: "",
       price: "",
       category: "",
+      images: "",
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values));
+      dispatch(createProduct(values));
+      formik.resetForm();
+      setTimeout(() => {
+        navigate("/admin/books-list");
+      }, 3000);
     },
   });
 
-  const props = {
-    onChange(info) {
-      if (info.file.status !== "uploading") {
-        alert(info.file, info.fileList);
-      }
-      if (info.file.status === "done") {
-        message.success(`${info.file.name} file uploaded successfully`);
-      } else if (info.file.status === "error") {
-        message.error(`${info.file.name} file upload failed.`);
-      }
-    },
-  };
-
   const options = [];
-
   for (let i = 0; i < categoryState.length; i++) {
     options.push({
       value: categoryState[i].title,
@@ -152,14 +162,39 @@ const AddBook = () => {
             <div style={{ color: "red" }}>
               {formik.touched.description && formik.errors.description}
             </div>
-            <ComponentBtn type="submit" name="Add Book" class="blog-btn" />
-            <Upload {...props}>
-              <ComponentBtn
-                type="button"
-                name="Add Image"
-                class="blog-btn-img"
-              />
-            </Upload>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <ComponentBtn type="submit" name="Add Book" class="blog-btn" />
+
+              <Dropzone
+                onDrop={(acceptedFiles) =>
+                  dispatch(uploadImages(acceptedFiles))
+                }
+                style={{ cursor: "pointer" }}
+              >
+                {({ getRootProps, getInputProps }) => (
+                  <div {...getRootProps()}>
+                    <input {...getInputProps()} />
+                    <p className="upload">Upload Image</p>
+                  </div>
+                )}
+              </Dropzone>
+            </div>
+
+            <div>
+              {imgState.map((item) => {
+                return (
+                  <div key={item.public_id} style={{ position: "relative" }}>
+                    <GrClose
+                      className="upload-btn"
+                      onClick={() => {
+                        dispatch(deleteImages(item.public_id));
+                      }}
+                    />
+                    <img className="upload-img" src={item.url} alt="#!" />
+                  </div>
+                );
+              })}
+            </div>
           </Col>
         </Row>
       </form>
