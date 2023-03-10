@@ -12,7 +12,8 @@ import AddBook from "./pages/AddBook";
 import BookList from "./pages/BookList";
 import Customers from "./pages/Customers";
 import Category from "./pages/Category";
-
+import Discount from "./pages/Discount";
+import DiscountList from "./pages/DiscountList";
 ///
 import "./App.css";
 
@@ -26,13 +27,16 @@ const App = () => {
         <Route path="/admin" element={<MainLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="customers" element={<Customers />} />
-          <Route path="blog" element={<AddBlog />} />
-          <Route path="blog-list" element={<BlogList />} />
-          <Route path="orders" element={<Orders />} />
           <Route path="product" element={<AddBook />} />
           <Route path="books-list" element={<BookList />} />
-          <Route path="queries" element={<Queries />} />
+          <Route path="blog" element={<AddBlog />} />
+          <Route path="blog-list" element={<BlogList />} />
+          <Route path="discount" element={<Discount />} />
+          <Route path="discount-list" element={<DiscountList />} />
+          <Route path="orders" element={<Orders />} />
+
           <Route path="category" element={<Category />} />
+          <Route path="queries" element={<Queries />} />
         </Route>
       </Routes>
     </BrowserRouter>

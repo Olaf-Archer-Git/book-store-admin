@@ -46,6 +46,16 @@
   text-transform: capitalize;
 }
 
+.discount-btn {
+  margin-top: 10px;
+  color: #01be40;
+  border: 2px solid #01be40;
+}
+
+.discount-btn:hover {
+  background: #fafafa;
+}
+
 @media screen and (max-width: 500px) {
   .header-container {
     display: block;

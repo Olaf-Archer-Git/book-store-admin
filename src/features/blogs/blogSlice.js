@@ -1,14 +1,18 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import { setPending, setError } from "../../app/setReducer";
 import { blogService } from "./blogService";
 
 const initialState = {
   blogs: [],
+  newBlog: [],
   isError: false,
   isLoading: false,
   isSuccess: false,
   message: "",
 };
+
+//the way how to clear state after render
+// export const resetState = createAction("Reset_all");
 
 export const getBlogs = createAsyncThunk("blog/get-blogs", async (thunkAPI) => {
   try {
@@ -20,8 +24,9 @@ export const getBlogs = createAsyncThunk("blog/get-blogs", async (thunkAPI) => {
 
 export const createBlog = createAsyncThunk(
   "blog/create-blog",
-  async (thunkAPI) => {
+  async (blogData, thunkAPI) => {
     try {
+      return await blogService.createBlog(blogData);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -41,7 +46,17 @@ export const blogSlice = createSlice({
         state.isSuccess = true;
         state.blogs = action.payload;
       })
-      .addCase(getBlogs.rejected, setError);
+      .addCase(getBlogs.rejected, setError)
+      .addCase(createBlog.pending, setPending)
+      .addCase(createBlog.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.newBlog = action.payload;
+      })
+      .addCase(createBlog.rejected, setError);
+    //the way how to clear state after render
+    // .addCase(resetState, () => initialState);
   },
 });
 

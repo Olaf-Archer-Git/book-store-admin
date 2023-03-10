@@ -24,10 +24,6 @@ const BlogList = () => {
       dataIndex: "title",
     },
     {
-      title: "Category",
-      dataIndex: "category",
-    },
-    {
       title: "Description",
       dataIndex: "description",
     },
@@ -42,7 +38,6 @@ const BlogList = () => {
     data.push({
       key: i + 1,
       title: blogState[i].title,
-      category: blogState[i].category,
       description: blogState[i].description,
       action: (
         <>

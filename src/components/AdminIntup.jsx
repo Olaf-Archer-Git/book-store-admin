@@ -6,7 +6,7 @@ import "../style/componentStyle.css";
 const AdminIntup = ({ type, id, placeholder, icon, name, value, onChange }) => {
   return (
     <Input
-      style={{ margin: "8px 0", padding: "8px" }}
+      style={{ margin: "5px 0", padding: "8px" }}
       type={type}
       id={id}
       placeholder={placeholder}

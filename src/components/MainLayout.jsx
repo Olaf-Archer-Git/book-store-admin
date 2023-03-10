@@ -7,14 +7,16 @@ import {
   MdOutlineCategory,
   MdQueryStats,
 } from "react-icons/md";
+import { BsPercent } from "react-icons/bs";
 import {
   HiOutlineUsers,
   HiOutlineBookmark,
   HiOutlineBookOpen,
   HiOutlineClipboardList,
 } from "react-icons/hi";
-import { SiBlogger, SiBloglovin } from "react-icons/si";
-import { TfiLayoutListPost } from "react-icons/tfi";
+import { SiBlogger, SiBloglovin, SiMarketo } from "react-icons/si";
+
+import { TfiLayoutListPost, TfiWallet } from "react-icons/tfi";
 import HeaderComponent from "./HeaderComponent";
 import "../style/componentStyle.css";
 
@@ -78,6 +80,7 @@ const MainLayout = () => {
                     },
                   ],
                 },
+
                 {
                   key: "orders",
                   icon: <HiOutlineClipboardList />,
@@ -97,6 +100,23 @@ const MainLayout = () => {
                       key: "blog-list",
                       icon: <TfiLayoutListPost />,
                       label: "Blog List",
+                    },
+                  ],
+                },
+                {
+                  key: "discounts",
+                  icon: <SiMarketo />,
+                  label: "Discount",
+                  children: [
+                    {
+                      key: "discount",
+                      icon: <BsPercent />,
+                      label: "Discount",
+                    },
+                    {
+                      key: "discount-list",
+                      icon: <TfiWallet />,
+                      label: "Discount List",
                     },
                   ],
                 },
