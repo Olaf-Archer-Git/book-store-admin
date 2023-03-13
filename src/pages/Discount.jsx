@@ -1,37 +1,45 @@
-import { React, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { React, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Row, Col } from "antd";
 import AdminIntup from "../components/AdminIntup";
 import ComponentBtn from "../components/ComponentBtn";
 import { useFormik } from "formik";
 import * as yup from "yup";
-
+import {
+  getAllDiscounts,
+  createDiscount,
+} from "../features/discount/discountSlice";
 import "../style/pageStyle.css";
 
 const Discount = () => {
   const dispatch = useDispatch();
+  // const discountState = useSelector((state) => state.discount.discounts);
   let schema = yup.object().shape({
     name: yup.string().required("Name is Required"),
     expiry: yup.date().required("Expiry Date is Required"),
-    coupon: yup.number().required("Coupon Percentage is Required"),
+    discount: yup.number().required("Discount Percentage is Required"),
   });
+
+  useEffect(() => {
+    dispatch(getAllDiscounts());
+  }, [dispatch]);
 
   const formik = useFormik({
     initialValues: {
       name: "",
       expiry: "",
-      coupon: "",
+      discount: "",
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      dispatch();
-      formik.resetForm();
+      dispatch(createDiscount(values));
+      // formik.resetForm();
     },
   });
   return (
     <>
       <Row style={{ margin: "25px 0" }} gutter={10}>
-        <h3 style={{ fontSize: "30px", margin: "20px" }}>Add Blog</h3>
+        <h3 style={{ fontSize: "30px", margin: "20px" }}>Discount</h3>
       </Row>
 
       <form action="" onSubmit={formik.handleSubmit}>
@@ -53,7 +61,7 @@ const Discount = () => {
 
           <Col span={16}>
             <AdminIntup
-              type="text"
+              type="date"
               id="id-title"
               placeholder="Expiry Of Discount"
               name="expiry"
@@ -68,16 +76,16 @@ const Discount = () => {
 
           <Col span={16}>
             <AdminIntup
-              type="text"
+              type="number"
               id="id-title"
-              placeholder="coupon"
-              name="coupon"
-              onChange={formik.handleChange("coupon")}
-              onBlur={formik.handleBlur("coupon")}
-              value={formik.values.coupon}
+              placeholder="discount"
+              name="discount"
+              onChange={formik.handleChange("discount")}
+              onBlur={formik.handleBlur("discount")}
+              value={formik.values.discount}
             />
             <div style={{ color: "red" }}>
-              {formik.touched.coupon && formik.errors.coupon}
+              {formik.touched.discount && formik.errors.discount}
             </div>
           </Col>
 

@@ -7,12 +7,14 @@ import queryReducer from "../features/queries/querySlice";
 import orderReducer from "../features/order/orderSlice";
 import categoryReducer from "../features/category/categorySlice";
 import uploadReducer from "../features/upload/uploadSlice";
+import discountReducer from "../features/discount/discountSlice";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     customer: customerReducer,
     product: productReducer,
+    discount: discountReducer,
     blog: blogReducer,
     query: queryReducer,
     order: orderReducer,

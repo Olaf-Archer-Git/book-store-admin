@@ -20,6 +20,7 @@ const AddBlog = () => {
   const navigate = useNavigate();
 
   const imgState = useSelector((state) => state.uploadImg.images);
+
   let schema = yup.object().shape({
     title: yup.string().required("Title is Required"),
     description: yup.string().required("Description is Required"),
