@@ -4,15 +4,13 @@ import { blogService } from "./blogService";
 
 const initialState = {
   blogs: [],
-  newBlog: [],
   isError: false,
   isLoading: false,
   isSuccess: false,
   message: "",
 };
 
-//the way how to clear state after render
-// export const resetState = createAction("Reset_all");
+export const resetState = createAction("Reset_all");
 
 export const getBlogs = createAsyncThunk("blog/get-blogs", async (thunkAPI) => {
   try {
@@ -22,11 +20,33 @@ export const getBlogs = createAsyncThunk("blog/get-blogs", async (thunkAPI) => {
   }
 });
 
+export const getSingleBlog = createAsyncThunk(
+  "blog/get-single-blog",
+  async (id, thunkAPI) => {
+    try {
+      return await blogService.getBlog(id);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const createBlog = createAsyncThunk(
   "blog/create-blog",
   async (blogData, thunkAPI) => {
     try {
       return await blogService.createBlog(blogData);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const updateBlog = createAsyncThunk(
+  "blog/update-blog",
+  async (blog, thunkAPI) => {
+    try {
+      return await blogService.updateBlog(blog);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -47,16 +67,37 @@ export const blogSlice = createSlice({
         state.blogs = action.payload;
       })
       .addCase(getBlogs.rejected, setError)
+
       .addCase(createBlog.pending, setPending)
       .addCase(createBlog.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.newBlog = action.payload;
+        state.createdBlog = action.payload;
       })
-      .addCase(createBlog.rejected, setError);
-    //the way how to clear state after render
-    // .addCase(resetState, () => initialState);
+      .addCase(createBlog.rejected, setError)
+
+      .addCase(getSingleBlog.pending, setPending)
+      .addCase(getSingleBlog.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.blogTitle = action.payload.title;
+        state.blogDescription = action.payload.description;
+      })
+      .addCase(getSingleBlog.rejected, setError)
+
+      .addCase(updateBlog.pending, setPending)
+      .addCase(updateBlog.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.updatedBlog = action.payload;
+      })
+      .addCase(updateBlog.rejected, setError)
+
+      //the way how to clear state after render
+      .addCase(resetState, () => initialState);
   },
 });
 

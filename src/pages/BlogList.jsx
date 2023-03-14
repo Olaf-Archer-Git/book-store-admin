@@ -41,7 +41,7 @@ const BlogList = () => {
       description: blogState[i].description,
       action: (
         <>
-          <Link to="#!">
+          <Link to={`/admin/blog/${blogState[i]._id}`}>
             <AiOutlineEdit
               style={{ fontSize: "21px", marginRight: "10px" }}
               title="edit"
@@ -57,7 +57,7 @@ const BlogList = () => {
 
   return (
     <Row style={{ margin: "25px 0" }} gutter={10}>
-      <h3 style={{ fontSize: "30px", margin: "20px" }}>Blog List</h3>
+      <h3 style={{ fontSize: "30px", margin: "20px 0" }}>Blog List</h3>
       <Col span={24}>
         <TableComponent columns={columns} data={data} />
       </Col>

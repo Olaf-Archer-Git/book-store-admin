@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Row, Col } from "antd";
+import { useLocation, useNavigate } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import AdminIntup from "../components/AdminIntup";
@@ -8,18 +9,34 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import Dropzone from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { deleteImages, uploadImages } from "../features/upload/uploadSlice";
 import { GrClose } from "react-icons/gr";
+import {
+  createBlog,
+  resetState,
+  getSingleBlog,
+  updateBlog,
+} from "../features/blogs/blogSlice";
 
 import "../style/pageStyle.css";
-import { createBlog } from "../features/blogs/blogSlice";
 
 const AddBlog = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
   const navigate = useNavigate();
 
+  const currentBlogID = location.pathname.split("/")[3];
+
   const imgState = useSelector((state) => state.uploadImg.images);
+
+  useEffect(() => {
+    if (currentBlogID !== undefined) {
+      dispatch(getSingleBlog(currentBlogID));
+    }
+    if (currentBlogID === undefined) {
+      dispatch(resetState());
+    }
+  }, [dispatch, currentBlogID]);
 
   let schema = yup.object().shape({
     title: yup.string().required("Title is Required"),
@@ -34,13 +51,17 @@ const AddBlog = () => {
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      dispatch(createBlog(values));
-      formik.resetForm();
+      if (currentBlogID !== undefined) {
+        const blogData = { id: currentBlogID, data: values };
+        dispatch(updateBlog(blogData));
+      }
+      if (currentBlogID === undefined) {
+        dispatch(createBlog(values));
+      }
       setTimeout(() => {
-        //the way how to clear state after render
-        // dispatch(resetState());
+        formik.resetForm();
         navigate("/admin/blog-list");
-      }, 3000);
+      }, 2000);
     },
   });
 
@@ -56,10 +77,14 @@ const AddBlog = () => {
     formik.values.images = img;
   });
 
+  const blogBtnName = currentBlogID !== undefined ? "Edit" : "Add";
+
   return (
     <>
       <Row style={{ margin: "25px 0" }} gutter={10}>
-        <h3 style={{ fontSize: "30px", margin: "20px" }}>Add Blog</h3>
+        <h3 style={{ fontSize: "30px", margin: "20px 0" }}>
+          {blogBtnName} Blog
+        </h3>
       </Row>
 
       <form action="" onSubmit={formik.handleSubmit}>
@@ -93,7 +118,11 @@ const AddBlog = () => {
               {formik.touched.description && formik.errors.description}
             </div>
             <div style={{ display: "flex", alignItems: "center" }}>
-              <ComponentBtn type="submit" name="Add Blog" class="blog-btn" />
+              <ComponentBtn
+                type="submit"
+                name={`${blogBtnName} Blog`}
+                class="blog-btn"
+              />
 
               <Dropzone
                 onDrop={(acceptedFiles) =>
